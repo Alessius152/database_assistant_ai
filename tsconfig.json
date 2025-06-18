@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "typeRoots": ["./node_modules/@types", "./types"],
+    "outDir": "./dist",          // Output directory
+    "rootDir": "./src",          // Directory di origine dei file sorgente
+    "module": "commonjs",        // Modulo di output (adatto a Node.js)
+    "target": "es2020",          // Versione ECMAScript desiderata
+    "esModuleInterop": true,     // Permette importazioni compatibili con CommonJS
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,              // Abilita tutti i controlli di tipo rigorosi
+    "skipLibCheck": true         // Salta il controllo dei tipi dei file .d.ts nelle dipendenze
+  },
+  "include": ["src/**/*"],       // Include tutti i file nella cartella src
+  "exclude": ["node_modules", "dist"]
+}

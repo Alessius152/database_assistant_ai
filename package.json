@@ -1,0 +1,20 @@
+{
+  "name": "database-population-automizer",
+  "version": "1.0.0",
+  "main": "dist/main.js",
+  "scripts": {
+    "start": "npx tsc && node dist/main"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@huggingface/inference": "^4.0.6",
+    "@types/sequelize": "^4.28.20",
+    "inquirer": "^12.6.3",
+    "mysql2": "^3.14.1",
+    "sequelize": "^6.37.7",
+    "ts-node": "^10.9.2"
+  }
+}
