@@ -1,12 +1,12 @@
 import inquirer from "inquirer"
-import { DatabaseSchemasInformations } from "./types"
+import { DatabaseSchemasInformations } from "../types"
+import chalk from "chalk"
 
 function instructionsPrint() {
-    console.log("Database Population Automizer CLI")
     console.log(`
 Istruzioni:
 
-    1) Seleziona tipo di ispezione ( raw-access, server-project )
+    ${chalk.bold(chalk.magenta('1)'))} ${chalk.bgCyanBright(chalk.black('Seleziona tipo di ispezione'))} ( raw-access, server-project )
         - raw-access:
             Inserisci credenziali e il programma ispeziona
             il database per trovare tabelle/modelli
@@ -16,21 +16,21 @@ Istruzioni:
             (linguaggio di programmazione) con ORM 
             (scelta consigliata)
 
-    2)
+    ${chalk.bold(chalk.magenta('2)'))}
         RAW-ACCESS:
-            2.1) Inserisci credenziali (host, username, password, port)
-            2.2) Attendi la query
+            ${chalk.bold(chalk.magenta('2.1)'))} ${chalk.bgCyanBright(chalk.black('Inserisci credenziali'))} (host, username, password, port)
+            ${chalk.bold(chalk.magenta('2.2)'))} ${chalk.bgCyanBright(chalk.black('Attendi la query'))}
 
         SERVER-PROJECT:
-            2.1) Seleziona linguaggio usato
-            2.2) Seleziona ORM usato
+            ${chalk.bold(chalk.magenta('2.1)'))} ${chalk.bgCyanBright(chalk.black('Seleziona linguaggio usato'))}
+            ${chalk.bold(chalk.magenta('2.2)'))} ${chalk.bgCyanBright(chalk.black('Seleziona ORM usato'))}
                 Questo software assegna a ogni linguaggio/ORM selezionato 
                 una struttura del progetto relativa al database utile per 
                 capire dove trovare informazioni relative ai modelli
                 Esempio: 
                     Nodejs/Sequelize: La cartella per i modelli sarà la
                     cartella ~project-dir~/database/models
-            2.3) attendi la ricerca e la generazione della query
+            ${chalk.bold(chalk.magenta('2.3)'))} ${chalk.bgCyanBright(chalk.black('Attendi la ricerca e la generazione della query'))}
 
 `)
 }

@@ -1,7 +1,7 @@
 
 import mysql from 'mysql2'
 import sequelize, { Sequelize } from 'sequelize'
-import { DatabaseSchemasInformations } from './types'
+import { DatabaseSchemasInformations } from '../types'
 
 class RawConnector {
 
