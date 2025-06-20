@@ -1,0 +1,27 @@
+==========================
+ ORM Supportati (Relazionali)
+==========================
+
+Lingua: Node.js
+--------------------------
+| ORM           | Percorso modelli               | Estensioni     | Note                        |
+|---------------|--------------------------------|----------------|-----------------------------|
+| Sequelize     | database/models/               | .js / .ts      | Modelli definiti per file   |
+| TypeORM       | src/entity/                    | .ts            | Usato spesso con NestJS     |
+| Objection.js  | models/                        | .js / .ts      | Basato su Knex              |
+| Prisma        | prisma/schema.prisma           | .prisma        | Schema unico in DSL Prisma  |
+
+Lingua: PHP
+--------------------------
+| ORM           | Percorso modelli               | Estensioni     | Note                        |
+|---------------|--------------------------------|----------------|-----------------------------|
+| Eloquent      | app/Models/                    | .php           | Laravel                     |
+| Doctrine ORM  | src/Entity/                    | .php           | Symfony, con annotazioni    |
+| Propel        | generated-classes/             | .php           | Path configurabile          |
+
+==========================
+ Note:
+ - I percorsi sono relativi alla root del progetto.
+ - Sono supportati solo ORM per database relazionali.
+ - I modelli verranno analizzati per dedurre tabelle e colonne.
+==========================

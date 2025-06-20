@@ -1,61 +1,79 @@
 import chalk from "chalk"
 
-function printDifferences(){
-    console.log(`${chalk.greenBright(chalk.black('Tipi di accesso e lettura dei modelli del database'))}
+function printDifferences() {
+    console.log(`${chalk.greenBright.bold('📚 Tipi di accesso e lettura dei modelli del database')}
 
-La differenza sostanziale consiste nel come l'AI costruisce i dati delle singole colonne dei record.
+L'AI può generare i dati per ogni colonna di una tabella in due modi:
 
-Una colonna può essere stringa, ma il valore legato ad essa può essere sia una stringa qualsiasi scelta dall'AI
-(legata comunque a un contesto, esempio: nome, cognome etc.) che una stringa legata a un ragionamento logico di
-chi progetta il database/server. 
+1. In modo generico (es. nomi, cognomi, città)
+2. Seguendo regole logiche create da chi ha progettato il database
 
-Un esempio lampante può essere una tabella ${chalk.cyanBright('"')}${chalk.yellow('amicizie')}${chalk.cyanBright('"')}:
-    
-    intero   intero       stringa
+---
+
+🔍 Esempio pratico: tabella ${chalk.yellowBright('"amicizie"')}
+
+Una colonna può sembrare semplice (come una stringa), ma in realtà seguire una regola precisa.
+
+Guarda questa tabella:
+
 ╔══╦════════╦════════════╦════════════╗
-║${chalk.magenta('ID')}║${chalk.bgMagenta(chalk.white('MITTENTE'))}║${chalk.bgMagenta(chalk.white('DESTINATARIO'))}║${chalk.yellow('CHIAVE_AMIC')} ║
+║${chalk.magenta('ID')}║${chalk.bgMagenta.white('MITTENTE')}║${chalk.bgMagenta.white('DESTINATARIO')}║${chalk.yellow('CHIAVE_AMIC')} ║
 ╠══╬════════╬════════════╬════════════╣
-║ ${chalk.magenta('0')}║       ${chalk.bgMagenta(chalk.white('1'))}║          ${chalk.bgMagenta(chalk.white('82'))}║        1_82║
-║ ${chalk.magenta('1')}║      ${chalk.bgMagenta(chalk.white('11'))}║           ${chalk.bgMagenta(chalk.white('1'))}║        1_11║
-║ ${chalk.magenta('2')}║      ${chalk.bgMagenta(chalk.white('37'))}║          ${chalk.bgMagenta(chalk.white('52'))}║       37_52║
+║ ${chalk.magenta('0')}║       ${chalk.bgMagenta.white('1')}║          ${chalk.bgMagenta.white('82')}║        1_82║
+║ ${chalk.magenta('1')}║      ${chalk.bgMagenta.white('11')}║           ${chalk.bgMagenta.white('1')}║        1_11║
+║ ${chalk.magenta('2')}║      ${chalk.bgMagenta.white('37')}║          ${chalk.bgMagenta.white('52')}║       37_52║
 ╚══╩════════╩════════════╩════════════╝
 
-la colonna CHIAVE_AMIC contiene delle stringhe, ma formattate secondo una logica umana 
-che l'AI potrebbe non riuscire a replicare. 
+➡️ La colonna ${chalk.cyan('CHIAVE_AMIC')} è una stringa costruita secondo una ${chalk.cyan('logica')}:
+- Prende gli ID da MITTENTE e DESTINATARIO
+- Li ordina in modo crescente
+- Li unisce con un trattino basso: \`id1_id2\`
 
-Il raw-access fa si che vengano inviate le informazioni relative alle colonne come tipo di dato,
-tipo di chiave etc. ma non possono essere in alcun modo specificate logiche di formattazione.
+Questa regola ${chalk.cyan('non può essere dedotta automaticamente dall’AI')}, a meno che tu non la specifichi da qualche parte.
 
-Nel caso di accesso server-project puoi definire lato codice con dei file delle specifiche 
-riguardo alcune colonne che devono rispettare una formattazione particolare. basta selezionare
-cartella, linguaggio e ORM usato. 
+---
 
-ammettiamo che tu stia usando nodejs con sequelize:
-In questo caso devi avere una cartella database/models con dentro dei file relativi ai modelli
-ad esempio:
-    database/models/Utente.model.js
-    database/models/Amicizia.models.js
+⚙️ Tipi di accesso ai modelli del database
 
-insieme a questi ci devono essere, laddove necessiti, di file .txt che contengono le specifiche
-per le formattazioni delle colonne. 
+🟢 ${chalk.bold('Raw-access')}
+- Invia solo dati tecnici: tipo della colonna, se è chiave primaria, ecc.
+- ❌ Non puoi definire regole particolari di formattazione
 
-Implementando lo stesso esempio della tabella amicizie puoi fare:
+🟡 ${chalk.bold('Server-project access')}
+- Ti permette di specificare regole extra, usando dei file \`.txt\`
+- Devi solo indicare:
+  - La cartella dei modelli
+  - Il linguaggio (es. Node.js)
+  - L’ORM usato (es. Sequelize)
 
-database/models/Amicizia.spec.txt:
-    [CHIAVE_AMIC]: il formato del valore di questa colonna deve essere:
-    id1_id2
+Esempio per Sequelize in Node.js:
 
-    gli id si riferiscono alle colonne MITTENTE e DESTINATARIO e sono
-    disposti nella colonna CHIAVE_AMIC in ordine crescente e divisi da
-    un _.
+📁 Struttura:
+\`\`\`
+database/models/Utente.model.js
+database/models/Amicizia.model.js
+database/models/Amicizia.spec.txt
+\`\`\`
 
-questi file di testo verranno letti e serviti all'AI come aiuto per capire come generare i dati.
+📄 Contenuto di \`Amicizia.spec.txt\`:
+\`\`\`
+[CHIAVE_AMIC]: il formato del valore di questa colonna deve essere:
+id1_id2
 
-Potrebbero essere anche utili in fase di sviluppo per comunicare ad altri sviluppatori di un team
-come sono strutturate le tabelle ;).
+gli id si riferiscono alle colonne MITTENTE e DESTINATARIO
+e sono ordinati in modo crescente e separati da un "_"
+\`\`\`
+
+---
+
+💡 Vantaggi dei file .spec.txt:
+- L’AI capisce ${chalk.cyan('come formattare i valori')}
+- Il tuo team capisce ${chalk.cyan('come è strutturata la tabella')}
+- Usi standard chiari e condivisi nel progetto
 
 `)
 }
+
 
 export {
     printDifferences,

@@ -1,5 +1,4 @@
 
-import mysql from 'mysql2'
 import sequelize, { Sequelize } from 'sequelize'
 import { DatabaseSchemasInformations } from '../types'
 
@@ -78,6 +77,10 @@ ORDER BY c.TABLE_NAME, c.ORDINAL_POSITION;
             case 'sqlite':
                 return ``
         }
+    }
+
+    async close(){
+        await this.sequelizeConfig.close()
     }
 
 }

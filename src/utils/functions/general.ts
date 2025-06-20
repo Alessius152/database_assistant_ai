@@ -2,18 +2,87 @@ import chalk from 'chalk'
 import inquirer from 'inquirer'
 import cp from 'child_process'
 import { appOption_dbAccessDifferences, appOption_dbPopulation, appOption_softwareInformations } from './menuOptions'
-import { inputString } from './appOption_dbPopulation'
+import { CustomizedInquirerOption } from '../types'
+import FileTreeSelectionPrompt from 'inquirer-file-tree-selection-prompt'
+
+inquirer.registerPrompt('file-tree-selection', FileTreeSelectionPrompt)
+
+async function inputChoiceFromList<T extends string>(msg: string, ...choices: Array<T>): Promise<T> {
+
+    const answer = await inquirer.prompt([
+        {
+            type: 'list',
+            name: 'choice',
+            message: msg,
+            choices: choices,
+        }
+    ])
+
+    return answer.choice
+
+}
+
+async function inputChoiceFromListCustomized<TLabel extends string>(msg: string, ...choices: Array<CustomizedInquirerOption<TLabel>>): Promise<TLabel> {
+
+    const answer = await inquirer.prompt<{ choice: TLabel }>([
+        {
+            type: 'list',
+            name: 'choice',
+            message: msg,
+            choices: choices.map(({ color, label }) => {
+                const colorFn = (chalk as any)[color] ?? chalk.white;
+                return {
+                    name: colorFn(label),
+                    value: label,
+                }
+            }),
+        }
+    ])
+
+    return answer.choice
+}
+
+async function inputString<T extends string>(msg: string): Promise<T> {
+
+    const answer = await inquirer.prompt([
+        {
+            type: 'input',
+            message: msg,
+            name: 'str'
+        }
+    ])
+
+    return answer.str
+
+}
+
+async function chooseDirectory() {
+    const choice = await inquirer.prompt([
+        {
+            type: 'file-tree-selection',
+            name: 'endpoint',
+            root: 'c:/',
+            onlyShowDir: true,
+        }
+    ])
+
+    return choice.endpoint
+}
 
 const cli = {
     clear: () => {
         if (process.platform === 'win32') {
             cp.execSync('cls', { stdio: 'inherit' })
-        } else {
+        } 
+        else if (process.platform === 'linux') {
             cp.execSync('clear', { stdio: 'inherit' })
         }
     },
     pause: async () => {
         await inputString(chalk.bgWhite(chalk.redBright(" Premi INVIO per continuare ")))
+    },
+    error: (msg: string)=>{
+        return console.log(chalk.bgRedBright(chalk.white(msg)))
     }
 }
 
@@ -60,6 +129,10 @@ const menu = {
 }
 
 export {
+    inputChoiceFromList,
+    inputChoiceFromListCustomized,
+    inputString,
+    chooseDirectory,
     cli,
     menu,
 }
